@@ -21,6 +21,7 @@ class Motorista(models.Model):
         ('O-', 'O-'),
     ]
 
+    foto = models.ImageField(upload_to='motoristas/', default='defaults/default.png')
     nome = models.CharField(max_length=200)
     matricula = models.CharField(max_length=30)
     cpf = models.CharField(max_length=11)
@@ -53,6 +54,7 @@ class Veiculo(models.Model):
     ('DCT', 'Dupla embreagem (DCT)'),
 ]
 
+    foto = models.ImageField(upload_to='veiculos/', default='defaults/default.png')
     apelido = models.CharField(max_length=300)
     placa = models.CharField(max_length=10)
     marca = models.CharField(max_length=200)
