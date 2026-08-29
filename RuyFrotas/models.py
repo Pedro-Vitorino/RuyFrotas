@@ -31,8 +31,7 @@ class Motorista(models.Model):
     cel = models.CharField(max_length=20)
     endereco = models.TextField()
     ingresso = models.DateField()
-    saiu = models.BooleanField(default=False)
-    chegou = models.BooleanField(default=False)
+    
 
     def __str__(self):
             return self.nome
