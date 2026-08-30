@@ -1,11 +1,37 @@
-{%  extends "RuyFrotas/index.html"%}
+{%  extends "RuyFrotas/base.html"%}
 {% load static %}
 
 {% block "title" %}Solicitações{% endblock %}
 
-{% block nav_index %}{% endblock %}
 {% block nav_solicitacoes %} active{% endblock %}
 
 {% block conteudo %}
-
+    <main class="app-main">
+        <div class="app-content-header">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+              <div class="col-sm-6">
+                  <h1 class="mb-0 fs-3">
+                      Solicitações
+                  </h1>
+                  <h6 class="mb-0 text-muted">
+                      Visão Geral
+                  </h6>
+              </div>
+              <div class="col-sm-6">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb float-sm-end">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Início</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Solicitações</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
+        </div>
+    </main>
 {% endblock %}
