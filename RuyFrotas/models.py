@@ -1,5 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
+class Usuario(AbstractUser):
+     pass
 
 class Motorista(models.Model):
     CATEGORIAS_CNH = [
@@ -20,6 +23,12 @@ class Motorista(models.Model):
         ('O+', 'O+'),
         ('O-', 'O-'),
     ]
+
+    usuario = models.OneToOneField(
+        Usuario,
+        on_delete=models.CASCADE,
+        related_name='motorista'
+    )
 
     foto = models.ImageField(upload_to='motoristas/', default='defaults/default.png')
     nome = models.CharField(max_length=200)
