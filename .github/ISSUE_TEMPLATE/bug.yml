@@ -1,0 +1,5 @@
+name: Bug
+description: Registre um erro do sistema.
+title: "[BUG] "
+labels:
+  - bug
