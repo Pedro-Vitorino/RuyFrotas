@@ -7,3 +7,6 @@ body:
 - type: markdown
   attributes:
     value: "Bugs são horríveis"
+- type: textarea
+  attributes:
+    label: "O que houve?"
