@@ -3,3 +3,7 @@ description: Registre um erro do sistema.
 title: "[BUG] "
 labels:
   - bug
+body:
+- type: markdown
+  attributes:
+    value: "Bugs são horríveis"
