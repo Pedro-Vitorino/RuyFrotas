@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404,redirect
 from .models import Motorista, Veiculo, Rota, Solicitacao, Manutencao,Gasto, Viagem
 
 def index(request):
@@ -115,6 +115,14 @@ def solicitacoes(request):
         }
     return render(request,"RuyFrotas/solicitacoes.html",context)
 
+def alternar_solicitacao(request, id):
+    solicitacao = get_object_or_404(Solicitacao, id=id)
+
+    solicitacao.atendida = not solicitacao.atendida
+    solicitacao.save()
+
+    return redirect('solicitacoes')
+
 
 def nova_solicitacao(request):
     context = {
@@ -149,6 +157,13 @@ def manutencoes(request):
         }
     return render(request,"RuyFrotas/manutencoes.html",context)
 
+def alternar_manutencao(request, id):
+    manutencao = get_object_or_404(Manutencao, id=id)
+
+    manutencao.atendida = not manutencao.atendida
+    manutencao.save()
+
+    return redirect('manutencoes')
 
 def nova_manutencao(request):
     context = {

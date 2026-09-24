@@ -1,38 +1,152 @@
-{%  extends "RuyFrotas/base.html"%}
+{% extends "RuyFrotas/base.html" %}
 {% load static %}
 
 {% block "title" %}Manutenções{% endblock %}
 
-
 {% block nav_manutencoes %} active{% endblock %}
 
 {% block conteudo %}
-    <main class="app-main">
-        <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
+<main class="app-main">
+
+    <!-- Cabeçalho -->
+    <div class="app-content-header">
+        <div class="container-fluid">
             <div class="row">
-              <div class="col-sm-6">
-                  <h1 class="mb-0 fs-3">
-                      Manutenções
-                  </h1>
-                  <h6 class="mb-0 text-muted">
-                      Visão Geral
-                  </h6>
-              </div>
-              <div class="col-sm-6">
-                <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Início</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Manutenções</li>
-                  </ol>
-                </nav>
-              </div>
+                <div class="col-sm-6">
+                    <h1 class="mb-0 fs-3">Manutenções</h1>
+                    <h6 class="mb-0 text-muted">Visão Geral</h6>
+                </div>
+
+                <div class="col-sm-6">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb float-sm-end">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'index' %}">Início</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Manutenções
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
-            <!--end::Row-->
-          </div>
-          <!--end::Container-->
         </div>
-    </main>
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="app-content">
+        <div class="container-fluid">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h3 class="card-title mb-0">Lista de manutenções</h3>
+                </div>
+
+                <div class="card-body p-0">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle mb-0">
+
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Veículo</th>
+                                    <th>Título</th>
+                                    <th>Data</th>
+                                    <th>Gasto</th>
+                                    <th class="text-center">Atendida</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for manutencao in manutencoes %}
+                                <tr>
+
+                                    <td>{{ manutencao.id }}</td>
+
+                                    <td>{{ manutencao.veiculo }}</td>
+
+                                    <td>{{ manutencao.titulo }}</td>
+
+                                    <td>{{ manutencao.data|date:"d/m/Y H:i" }}</td>
+
+                                    <td>
+                                        R$ {{ manutencao.gasto|floatformat:2 }}
+                                    </td>
+
+                                    <td class="text-center">
+                                        {% if manutencao.atendida %}
+                                            <i class="bi bi-check-circle-fill text-success fs-5"
+                                               title="Atendida"></i>
+                                        {% else %}
+                                            <i class="bi bi-x-circle-fill text-danger fs-5"
+                                               title="Não atendida"></i>
+                                        {% endif %}
+                                    </td>
+
+                                    <td class="text-nowrap">
+
+                                        <!-- Alternar atendida -->
+                                        <a href="{% url 'alternar_manutencao' manutencao.id %}"
+                                           class="btn btn-sm {% if manutencao.atendida %}btn-warning{% else %}btn-success{% endif %}"
+                                           title="{% if manutencao.atendida %}Marcar como não atendida{% else %}Marcar como atendida{% endif %}">
+
+                                            {% if manutencao.atendida %}
+                                                <i class="bi bi-x-lg"></i>
+                                            {% else %}
+                                                <i class="bi bi-check-lg"></i>
+                                            {% endif %}
+
+                                        </a>
+
+                                        <!-- Visualizar -->
+                                        <a href="{% url 'detalhe_manutencao' manutencao.id %}"
+                                           class="btn btn-sm btn-primary"
+                                           title="Visualizar">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+
+                                        <!-- Editar -->
+                                        <a href="{% url 'editar_manutencao' manutencao.id %}"
+                                           class="btn btn-sm btn-secondary"
+                                           title="Editar">
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </a>
+
+                                        <!-- Remover -->
+                                        <a href="{% url 'remover_manutencao' manutencao.id %}"
+                                           class="btn btn-sm btn-danger"
+                                           title="Excluir">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-4">
+                                        Nenhuma manutenção cadastrada.
+                                    </td>
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
 {% endblock %}

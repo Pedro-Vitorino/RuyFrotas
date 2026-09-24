@@ -25,11 +25,13 @@ urlpatterns = [
     path("rotas/<int:id_rotas>/", views.editar_rotas, name="editar_rota"),
     path("rotas/<int:id_rotas>/", views.remover_rotas, name="remover_rota"),
     ## Views de Solicitações
+    path('solicitacoes/<int:id>/alternar/', views.alternar_solicitacao, name='alternar_solicitacao'),
     path("solicitacoes/novo/", views.nova_solicitacao, name="nova_solicitacao"),
     path("solicitacoes/<int:id_solicitacao>/", views.ver_solicitacao, name="detalhe_solicitacao"),
     path("solicitacoes/<int:id_solicitacao>/", views.editar_solicitacao, name="editar_solicitacao"),
     path("solicitacoes/<int:id_solicitacao>/", views.remover_solicitacao, name="remover_solicitacao"),
     ## Views de Manutenções
+    path('manutencoes/<int:id>/alternar/',views.alternar_manutencao,name='alternar_manutencao'),
     path("manutencoes/novo/", views.nova_manutencao, name="nova_manutencao"),
     path("manutencoes/<int:id_manutencao>/", views.ver_manutencoes, name="detalhe_manutencao"),
     path("manutencoes/<int:id_manutencao>/", views.editar_manutencoes, name="editar_manutencao"),

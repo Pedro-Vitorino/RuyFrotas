@@ -80,9 +80,6 @@ class Veiculo(models.Model):
     capacidade =models.IntegerField()
     observacao = models.TextField()
     motoristas = models.ManyToManyField(Motorista, related_name='veiculos')
-    is_funcionando = models.BooleanField(default =True)
-    is_quebrado = models.BooleanField(default =False)
-    is_conserto = models.BooleanField(default =False)
     status = models.CharField(
         max_length=11,
         choices=STATUS,

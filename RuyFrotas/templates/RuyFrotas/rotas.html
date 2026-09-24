@@ -1,38 +1,136 @@
-{%  extends "RuyFrotas/base.html"%}
+{% extends "RuyFrotas/base.html" %}
 {% load static %}
 
 {% block "title" %}Rotas{% endblock %}
 
-
 {% block nav_rotas %} active{% endblock %}
 
 {% block conteudo %}
-    <main class="app-main">
-        <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
+<main class="app-main">
+
+    <!-- Cabeçalho -->
+    <div class="app-content-header">
+        <div class="container-fluid">
             <div class="row">
-              <div class="col-sm-6">
-                  <h1 class="mb-0 fs-3">
-                      Rotas
-                  </h1>
-                  <h6 class="mb-0 text-muted">
-                      Visão Geral
-                  </h6>
-              </div>
-              <div class="col-sm-6">
-                <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Início</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Rotas</li>
-                  </ol>
-                </nav>
-              </div>
+                <div class="col-sm-6">
+                    <h1 class="mb-0 fs-3">Rotas</h1>
+                    <h6 class="mb-0 text-muted">Visão Geral</h6>
+                </div>
+
+                <div class="col-sm-6">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb float-sm-end">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'index' %}">Início</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Rotas
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
-            <!--end::Row-->
-          </div>
-          <!--end::Container-->
         </div>
-    </main>
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="app-content">
+        <div class="container-fluid">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h3 class="card-title mb-0">Lista de rotas</h3>
+                </div>
+
+                <div class="card-body p-0">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle mb-0">
+
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Motoristas</th>
+                                    <th>Duração</th>
+                                    <th>Origem</th>
+                                    <th>Destino</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for rota in rotas %}
+                                <tr>
+
+                                    <td>{{ rota.id }}</td>
+
+                                    <td>{{ rota.nome }}</td>
+
+                                    <td>
+                                        {% for motorista in rota.motoristas.all %}
+                                            <span class="badge text-bg-secondary">
+                                                {{ motorista.nome }}
+                                            </span>
+                                        {% empty %}
+                                            <span class="text-muted">
+                                                Nenhum motorista
+                                            </span>
+                                        {% endfor %}
+                                    </td>
+
+                                    <td>{{ rota.duracao }}</td>
+
+                                    <td>{{ rota.origem }}</td>
+
+                                    <td>{{ rota.destino }}</td>
+
+                                    <td class="text-nowrap">
+
+                                        <a href="{% url 'detalhe_rota' rota.id %}"
+                                           class="btn btn-sm btn-primary"
+                                           title="Visualizar">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+
+                                        <a href="{% url 'editar_rota' rota.id %}"
+                                           class="btn btn-sm btn-secondary"
+                                           title="Editar">
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </a>
+
+                                        <a href="{% url 'remover_rota' rota.id %}"
+                                           class="btn btn-sm btn-danger"
+                                           title="Excluir">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-4">
+                                        Nenhuma rota cadastrada.
+                                    </td>
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
 {% endblock %}
