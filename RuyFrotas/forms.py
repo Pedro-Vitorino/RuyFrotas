@@ -11,7 +11,7 @@ class FormsMotorista(forms.ModelForm):
         model = Motorista
         fields = "__all__"
 
-class FormsVeiculo(forms.ModelForm):
+class FormsVeiculo(forms.ModelForm): 
     class Meta:
         model = Veiculo
         fields = "__all__"

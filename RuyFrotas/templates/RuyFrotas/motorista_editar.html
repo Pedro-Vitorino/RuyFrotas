@@ -1,0 +1,21 @@
+{% extends "RuyFrotas/base.html" %}
+{% load static %}
+
+{% block "title" %}Motorista{% endblock %}
+
+{% block nav_gastos %} active{% endblock %}
+
+{% block conteudo %}
+<section class="py-5 container">
+    <div class="card w-50">
+        <div class="card-body">
+            <h1 class="card-title text-center">Cadastre-se.</h1>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <input type="submit" class="btn btn-primary" value="Enviar">
+            </form>
+     </div>
+    </div>
+</section>
+{% endblock %}
