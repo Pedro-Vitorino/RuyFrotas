@@ -11,6 +11,14 @@ def veiculos(request):
     }
     return render(request,"RuyFrotas/veiculos.html", context)
 
+
+def novo_veiculo(request):
+    context = {
+        "veiculos": Veiculo.objects.all(),
+    }
+    return render(request,"RuyFrotas/veiculo_editar.html", context)
+
+
 def ver_veiculos(request, id_veiculo):
     context = {
         "veiculo": get_object_or_404(Veiculo, id=id_veiculo),
@@ -39,6 +47,14 @@ def motoristas(request):
         }
     return render(request,"RuyFrotas/motoristas.html", context)
 
+
+def novo_motorista(request):
+    context = {
+            "motoristas": get_object_or_404(Motorista),
+        }
+    return render(request, "RuyFrotas/motorista_editar.html", context)
+    
+
 def editar_motoristas(request, id_motorista):
     context = {
         "motoristas": get_object_or_404(Motorista, id=id_motorista),
@@ -66,6 +82,13 @@ def rotas(request):
         }
     return render(request,"RuyFrotas/rotas.html",context)
 
+
+def nova_rota(request):
+    context = {
+                "rotas": Rota.objects.all(),
+            }
+    return render(request,"RuyFrotas/rota_editar.html",context)
+    
 def ver_rotas(request, id_rotas):
     context = {
         "rota": get_object_or_404(Rota, id=id_rotas),
@@ -92,6 +115,13 @@ def solicitacoes(request):
         }
     return render(request,"RuyFrotas/solicitacoes.html",context)
 
+
+def nova_solicitacao(request):
+    context = {
+                "solicitacoes": Solicitacao.objects.all(),
+            }
+    return render(request,"RuyFrotas/solicitacao_editar.html",context)
+    
 def ver_solicitacao(request, id_solicitacao):
     context = {
         "solicitacao": get_object_or_404(Solicitacao, id=id_solicitacao),
@@ -119,6 +149,14 @@ def manutencoes(request):
         }
     return render(request,"RuyFrotas/manutencoes.html",context)
 
+
+def nova_manutencao(request):
+    context = {
+                "manutencoes": Manutencao.objects.all(),
+            }
+    return render(request,"RuyFrotas/manutencao_editar.html",context)
+    
+    
 def ver_manutencoes(request, id_manutencao):
     context = {
         "manutencao": get_object_or_404(Manutencao, id=id_manutencao),
@@ -145,6 +183,14 @@ def gastos(request):
         }
     return render(request,"RuyFrotas/gastos.html",context)
 
+
+def novo_gasto(request):
+    context = {
+            "gastos": Gasto.objects.all(),
+        }
+    return render(request,"RuyFrotas/gasto_editar.html",context)
+
+    
 def ver_gastos(request, id_gastos):
     context = {
         "gastos": get_object_or_404(Gasto, id=id_gastos),
