@@ -47,6 +47,11 @@ class Motorista(models.Model):
             return self.nome
 
 class Veiculo(models.Model):
+    STATUS = [
+        ('FUNCIONANDO', 'Funcionando'),
+        ('QUEBRADO', 'Quebrado'),
+        ('CONSERTO', 'Em conserto'),
+    ]
     COMBUSTIVEIS = [
         ('G', 'Gasolina'),
         ('A', 'Álcool'),
@@ -78,7 +83,11 @@ class Veiculo(models.Model):
     is_funcionando = models.BooleanField(default =True)
     is_quebrado = models.BooleanField(default =False)
     is_conserto = models.BooleanField(default =False)
-    
+    status = models.CharField(
+        max_length=11,
+        choices=STATUS,
+        default='FUNCIONANDO'
+    )
 
     def __str__(self):
         return self.apelido
