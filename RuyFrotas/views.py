@@ -1,5 +1,9 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from .models import Motorista, Veiculo, Rota, Solicitacao, Manutencao,Gasto, Viagem
+from django.contrib import messages
+from .forms import FormsGasto, FormsManutencao, FormsMotorista, FormsRota, FormsSolicitacao, FormsUsuario, FormsVeiculo, FormsViagem
+from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required, permission_required
 
 def index(request):
     return render(request,"RuyFrotas/index.html")
@@ -13,8 +17,17 @@ def veiculos(request):
 
 
 def novo_veiculo(request):
+    if request.method == "POST":
+        form = FormsVeiculo(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Veículo cadastrado com sucesso!')
+            return redirect("veiculos")
+    else:
+        form = FormsVeiculo()
+
     context = {
-        "veiculos": Veiculo.objects.all(),
+        "form": form,
     }
     return render(request,"RuyFrotas/veiculo_editar.html", context)
 
@@ -26,8 +39,20 @@ def ver_veiculos(request, id_veiculo):
     return render(request, "RuyFrotas/veiculo_ver.html", context)
 
 def editar_veiculos(request, id_veiculo):
+    veiculo = get_object_or_404(Veiculo, id=id_veiculo)
+    if request.method == "POST":
+        form = FormsVeiculo(request.POST, request.FILES, instance=veiculo)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Veículo editado com sucesso!')
+            return redirect("veiculos")
+            
+    else:
+        form = FormsVeiculo(instance= veiculo)
+
     context = {
-        "veiculo": get_object_or_404(Veiculo, id=id_veiculo),
+        "form": form,
     }
     return render(request, "RuyFrotas/veiculo_editar.html", context)
 
