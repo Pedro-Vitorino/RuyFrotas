@@ -58,10 +58,13 @@ def editar_veiculos(request, id_veiculo):
 
 
 def remover_veiculos(request, id_veiculo):
-    context = {
-        "veiculo": get_object_or_404(Veiculo, id=id_veiculo),
-    }
-    return render(request, "RuyFrotas/veiculo_remover.html", context)
+    if request.method == "POST":
+        veiculo = get_object_or_404(Veiculo, id=id_veiculo)
+        veiculo.delete()
+        messages.success(request, 'Veículo removido com sucesso!')
+        return redirect("veiculo")
+    else:
+        return render(request, "RuyFrotas/veiculo_remover.html")
 
 
 ## MOTORISTAS
@@ -110,10 +113,14 @@ def editar_motoristas(request, id_motorista):
 
 
 def remover_motoristas(request, id_motorista):
-    context = {
-        "motoristas": get_object_or_404(Motorista, id=id_motorista),
-    }
-    return render(request, "RuyFrotas/motorista_remover.html", context)
+    if request.method == "POST":
+        motorista = get_object_or_404(Motorista, id=id_motorista)
+        motorista.delete()
+        messages.success(request, 'Motorista removido com sucesso!')
+        return redirect("motorista")
+    else:
+        return render(request, "RuyFrotas/motorista_remover.html")
+
 
 
 def ver_motoristas(request, id_motorista):
@@ -153,10 +160,14 @@ def ver_rotas(request, id_rotas):
     return render(request, "RuyFrotas/rota_ver.html", context)
 
 def remover_rotas(request, id_rotas):
-    context = {
-        "rota": get_object_or_404(Rota, id=id_rotas),
-    }
-    return render(request, "RuyFrotas/rotas_remover.html", context)
+    if request.method == "POST":
+        rotas = get_object_or_404(Rotas, id=id_rotas)
+        rotas.delete()
+        messages.success(request, 'Rota removida com sucesso!')
+        return redirect("rotas")
+    else:
+        return render(request, "RuyFrotas/rotas_remover.html")
+
 
 
 def editar_rotas(request, id_rotas):
@@ -216,10 +227,14 @@ def ver_solicitacao(request, id_solicitacao):
     return render(request, "RuyFrotas/solicitacao_ver.html", context)
 
 def remover_solicitacao(request, id_solicitacao):
-    context = {
-        "solicitacao": get_object_or_404(Solicitacao, id=id_solicitacao),
-    }
-    return render(request, "RuyFrotas/solicitacao_remover.html", context)
+    if request.method == "POST":
+        solicitacao = get_object_or_404(Solicitacao, id=id_solicitacao)
+        solicitacao.delete()
+        messages.success(request, 'Solicitação removida com sucesso!')
+        return redirect("solicitacao")
+    else:
+        return render(request, "RuyFrotas/solicitacao_remover.html")
+
 
 
 def editar_solicitacao(request, id_solicitacao):
@@ -279,10 +294,14 @@ def ver_manutencoes(request, id_manutencao):
     return render(request, "RuyFrotas/manutencao_ver.html", context)
 
 def remover_manutencoes(request, id_manutencao):
-    context = {
-         "manutencao": get_object_or_404(Manutencao, id=id_manutencao),
-    }
-    return render(request, "RuyFrotas/manutencao_remover.html", context)
+    if request.method == "POST":
+        manutencao = get_object_or_404(Manutencao, id=id_manutencao)
+        manutencao.delete()
+        messages.success(request, 'Manutenção removida com sucesso!')
+        return redirect("manutencao")
+    else:
+        return render(request, "RuyFrotas/manutencao_remover.html")
+
 
 
 def editar_manutencao(request, id_manutencao):
@@ -334,10 +353,14 @@ def ver_gastos(request, id_gastos):
     return render(request, "RuyFrotas/gasto_ver.html", context)
 
 def remover_gastos(request, id_gastos):
-    context = {
-         "gastos": get_object_or_404(Gasto, id=id_gastos),
-    }
-    return render(request, "RuyFrotas/manutencao_remover.html", context)
+    if request.method == "POST":
+        gastos = get_object_or_404(Gasto, id=id_gastos)
+        gastos.delete()
+        messages.success(request, 'Gasto removido com sucesso!')
+        return redirect("gasto")
+    else:
+        return render(request, "RuyFrotas/gasto_remover.html")
+
 
 
 def editar_gastos(request, id_gastos):
