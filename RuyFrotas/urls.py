@@ -34,7 +34,7 @@ urlpatterns = [
     path('manutencoes/<int:id>/alternar/',views.alternar_manutencao,name='alternar_manutencao'),
     path("manutencoes/novo/", views.nova_manutencao, name="nova_manutencao"),
     path("manutencoes/<int:id_manutencao>/", views.ver_manutencoes, name="detalhe_manutencao"),
-    path("manutencoes/<int:id_manutencao>/editar", views.editar_manutencoes, name="editar_manutencao"),
+    path("manutencoes/<int:id_manutencao>/editar", views.editar_manutencao, name="editar_manutencao"),
     path("manutencoes/<int:id_manutencao>/remover", views.remover_manutencoes, name="remover_manutencao"),
     ## Views de Gastos
     path("gastos/novo/", views.novo_gasto, name="novo_gasto"),
