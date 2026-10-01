@@ -74,15 +74,37 @@ def motoristas(request):
 
 
 def novo_motorista(request):
+    if request.method == "POST":
+        form = FormsMotorista(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Motorista cadastrado com sucesso!')
+            return redirect("motoristas")
+    else:
+        form = FormsMotorista()
+
     context = {
-            "motoristas": get_object_or_404(Motorista),
-        }
-    return render(request, "RuyFrotas/motorista_editar.html", context)
+        "form": form,
+    }
+    return render(request,"RuyFrotas/motorista_editar.html", context)
+
     
 
 def editar_motoristas(request, id_motorista):
+    motorista = get_object_or_404(Motorista, id=id_motorista)
+    if request.method == "POST":
+        form = FormsMotorista(request.POST, request.FILES, instance=motorista)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Motorista editado com sucesso!')
+            return redirect("motoristas")
+            
+    else:
+        form = FormsMotorista(instance= motorista)
+
     context = {
-        "motoristas": get_object_or_404(Motorista, id=id_motorista),
+        "form": form,
     }
     return render(request, "RuyFrotas/motorista_editar.html", context)
 
@@ -109,10 +131,20 @@ def rotas(request):
 
 
 def nova_rota(request):
+    if request.method == "POST":
+        form = FormsRota(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Rota cadastrada com sucesso!')
+            return redirect("rotas")
+    else:
+        form = FormsRota()
+
     context = {
-                "rotas": Rota.objects.all(),
-            }
-    return render(request,"RuyFrotas/rota_editar.html",context)
+        "form": form,
+    }
+    return render(request,"RuyFrotas/rotas_editar.html", context)
+
     
 def ver_rotas(request, id_rotas):
     context = {
@@ -128,8 +160,20 @@ def remover_rotas(request, id_rotas):
 
 
 def editar_rotas(request, id_rotas):
+    rota = get_object_or_404(Rota, id=id_rotas)
+    if request.method == "POST":
+        form = FormsRota(request.POST, request.FILES, instance=rota)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Rota editada com sucesso!')
+            return redirect("rotas")
+            
+    else:
+        form = FormsRota(instance= rota)
+
     context = {
-        "rota": get_object_or_404(Rota, id=id_rotas),
+        "form": form,
     }
     return render(request, "RuyFrotas/rotas_editar.html", context)
 
@@ -150,10 +194,20 @@ def alternar_solicitacao(request, id):
 
 
 def nova_solicitacao(request):
+    if request.method == "POST":
+        form = FormsSolicitacao(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Solicitação cadastrada com sucesso!')
+            return redirect("solicitacoes")
+    else:
+        form = FormsSolicitacao()
+
     context = {
-                "solicitacoes": Solicitacao.objects.all(),
-            }
-    return render(request,"RuyFrotas/solicitacao_editar.html",context)
+        "form": form,
+    }
+    return render(request,"RuyFrotas/solicitacao_editar.html", context)
+
     
 def ver_solicitacao(request, id_solicitacao):
     context = {
@@ -168,12 +222,23 @@ def remover_solicitacao(request, id_solicitacao):
     return render(request, "RuyFrotas/solicitacao_remover.html", context)
 
 
-def editar_solicitacao(request,id_solicitacao):
+def editar_solicitacao(request, id_solicitacao):
+    solicitacao = get_object_or_404(Solicitacao, id=id_solicitacao)
+    if request.method == "POST":
+        form = FormsSolicitacao(request.POST, request.FILES, instance=solicitacao)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Solicitação editada com sucesso!')
+            return redirect("solicitacoes")
+            
+    else:
+        form = FormsSolicitacao(instance= solicitacao)
+
     context = {
-        "solicitacao": get_object_or_404(Solicitacao, id=id_solicitacao),
+        "form": form,
     }
     return render(request, "RuyFrotas/solicitacao_editar.html", context)
-
 
 ## MANUTENÇÕES
 def manutencoes(request):
@@ -191,10 +256,20 @@ def alternar_manutencao(request, id):
     return redirect('manutencoes')
 
 def nova_manutencao(request):
+    if request.method == "POST":
+        form = FormsManutencao(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Manutenção cadastrada com sucesso!')
+            return redirect("manutencao")
+    else:
+        form = FormsManutencao()
+
     context = {
-                "manutencoes": Manutencao.objects.all(),
-            }
-    return render(request,"RuyFrotas/manutencao_editar.html",context)
+        "form": form,
+    }
+    return render(request,"RuyFrotas/manutencao_editar.html", context)
+
     
     
 def ver_manutencoes(request, id_manutencao):
@@ -210,9 +285,21 @@ def remover_manutencoes(request, id_manutencao):
     return render(request, "RuyFrotas/manutencao_remover.html", context)
 
 
-def editar_manutencoes(request,id_manutencao):
+def editar_manutencao(request, id_manutencao):
+    manutencao = get_object_or_404(Manutencao, id=id_manutencao)
+    if request.method == "POST":
+        form = FormsManutencao(request.POST, request.FILES, instance=manutencao)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Manutenção editada com sucesso!')
+            return redirect("manutencao")
+            
+    else:
+        form = FormsManutencao(instance= manutencao)
+
     context = {
-         "manutencao": get_object_or_404(Manutencao, id=id_manutencao),
+        "form": form,
     }
     return render(request, "RuyFrotas/manutencao_editar.html", context)
 
@@ -225,9 +312,18 @@ def gastos(request):
 
 
 def novo_gasto(request):
+    if request.method == "POST":
+        form = FormsGasto(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Gasto cadastrado com sucesso!')
+            return redirect("gastos")
+    else:
+        form = FormsGasto()
+
     context = {
-            "gastos": Gasto.objects.all(),
-        }
+        "form": form,
+    }
     return render(request,"RuyFrotas/gasto_editar.html",context)
 
     
@@ -244,8 +340,20 @@ def remover_gastos(request, id_gastos):
     return render(request, "RuyFrotas/manutencao_remover.html", context)
 
 
-def editar_gastos(request,id_gastos):
+def editar_gastos(request, id_gastos):
+    gasto = get_object_or_404(Gasto, id=id_gastos)
+    if request.method == "POST":
+        form = FormsGasto(request.POST, request.FILES, instance=gasto)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Gastos editados com sucesso!')
+            return redirect("gastos")
+            
+    else:
+        form = FormsGasto(instance= gasto)
+
     context = {
-         "gastos": get_object_or_404(Gasto, id=id_gastos),
+        "form": form,
     }
-    return render(request, "RuyFrotas/manutencao_editar.html", context)
+    return render(request, "RuyFrotas/gasto_editar.html", context)
