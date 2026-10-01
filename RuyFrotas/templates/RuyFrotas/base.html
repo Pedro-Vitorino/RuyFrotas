@@ -1176,9 +1176,21 @@
       <!--end::Sidebar-->
       <!--begin::App Main-->
 
-{% block conteudo %}
-      
-{% endblock %}
+    <main>
+      {% if messages %}
+      <div>
+          {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} alert-dismissible">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+              </div>
+          {% endfor %}
+      </div>
+      {% endif %}
+        {% block conteudo %}
+           
+        {% endblock %}
+    </main>
       <!--end::App Main-->
       <!--begin::Footer-->
       <footer class="app-footer">
