@@ -30,6 +30,7 @@ urlpatterns = [
     path("solicitacoes/<int:id_solicitacao>/", views.ver_solicitacao, name="detalhe_solicitacao"),
     path("solicitacoes/<int:id_solicitacao>/editar", views.editar_solicitacao, name="editar_solicitacao"),
     path("solicitacoes/<int:id_solicitacao>/remover", views.remover_solicitacao, name="remover_solicitacao"),
+    path("minhas-solicitacoes/",views.minhas_solicitacoes,name="minhas_solicitacoes"),
     ## Views de Manutenções
     path('manutencoes/<int:id>/alternar/',views.alternar_manutencao,name='alternar_manutencao'),
     path("manutencoes/novo/", views.nova_manutencao, name="nova_manutencao"),

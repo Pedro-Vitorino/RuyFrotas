@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from .models import Motorista, Veiculo, Rota, Solicitacao, Manutencao,Gasto, Viagem
 from django.contrib import messages
-from .forms import FormsGasto, FormsManutencao, FormsMotorista, FormsRota, FormsSolicitacao, FormsUsuario, FormsVeiculo, FormsViagem,  MotoristaFormSet, FormsMotoristaAdmin, FormsMinhaConta, FormsAlterarSenha
+from .forms import FormsGasto, FormsManutencao, FormsMotorista, FormsSolicitacaoMotorista, FormsRota, FormsSolicitacao, FormsUsuario, FormsVeiculo, FormsViagem,  MotoristaFormSet, FormsMotoristaAdmin, FormsMinhaConta, FormsAlterarSenha
 
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
@@ -435,21 +435,51 @@ def alternar_solicitacao(request, id):
 
     return redirect('solicitacoes')
 
-@admin_required
+@login_required
 def nova_solicitacao(request):
-    if request.method == "POST":
-        form = FormsSolicitacao(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Solicitação cadastrada com sucesso!')
-            return redirect("solicitacoes")
-    else:
-        form = FormsSolicitacao()
+    if request.user.tipo != 'MOTORISTA':
+        raise PermissionDenied
 
-    context = {
-        "form": form,
-    }
-    return render(request,"RuyFrotas/solicitacao_editar.html", context)
+    motorista = request.user.motorista
+
+    if request.method == "POST":
+        form = FormsSolicitacaoMotorista(request.POST)
+
+        if form.is_valid():
+            solicitacao = form.save(commit=False)
+            solicitacao.motorista = motorista
+            solicitacao.save()
+
+            messages.success(
+                request,
+                'Solicitação cadastrada com sucesso!'
+            )
+
+            return redirect("minhas_solicitacoes")
+    else:
+        form = FormsSolicitacaoMotorista()
+
+    return render(
+        request,
+        "RuyFrotas/solicitacao_editar.html",
+        {"form": form}
+    )
+@login_required
+def minhas_solicitacoes(request):
+    if request.user.tipo != 'MOTORISTA':
+        raise PermissionDenied
+
+    motorista = request.user.motorista
+
+    solicitacoes = Solicitacao.objects.filter(
+        motorista=motorista
+    ).order_by('-data')
+
+    return render(
+        request,
+        "RuyFrotas/minhas_solicitacoes.html",
+        {"solicitacoes": solicitacoes}
+    )
 
 @admin_required
 def ver_solicitacao(request, id_solicitacao):

@@ -115,7 +115,11 @@ MotoristaFormSet = inlineformset_factory(
     can_delete=False
 )
 
-
+class FormsSolicitacaoMotorista(forms.ModelForm):
+    class Meta:
+        model = Solicitacao
+        exclude = ['motorista', 'atendida', 'data']
+        
 # =========================
 # MINHA CONTA
 # =========================
