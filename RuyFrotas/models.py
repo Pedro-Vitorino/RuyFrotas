@@ -2,7 +2,17 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class Usuario(AbstractUser):
-     pass
+    TIPOS_USUARIO = [
+        ('ADMIN', 'Administrador'),
+        ('MOTORISTA', 'Motorista'),
+    ]
+
+    tipo = models.CharField(
+        max_length=20,
+        choices=TIPOS_USUARIO,
+        default='MOTORISTA'
+    )
+
 
 class Motorista(models.Model):
     CATEGORIAS_CNH = [
@@ -30,22 +40,30 @@ class Motorista(models.Model):
         related_name='motorista'
     )
 
-    foto = models.ImageField(upload_to='motoristas/', default='defaults/default.png')
+    foto = models.ImageField(
+        upload_to='motoristas/',
+        default='defaults/default.png'
+    )
+
     nome = models.CharField(max_length=200)
     matricula = models.CharField(max_length=30)
     cpf = models.CharField(max_length=11)
     num_cnh = models.CharField(max_length=20)
-    tipo_cnh = models.CharField(max_length=1, choices= CATEGORIAS_CNH)
-    tipo_sangue = models.CharField(max_length=3, choices=TIPOS_SANGUINEOS)
+    tipo_cnh = models.CharField(
+        max_length=1,
+        choices=CATEGORIAS_CNH
+    )
+    tipo_sangue = models.CharField(
+        max_length=3,
+        choices=TIPOS_SANGUINEOS
+    )
     email = models.EmailField()
     cel = models.CharField(max_length=20)
     endereco = models.TextField()
     ingresso = models.DateField()
-    
 
     def __str__(self):
-            return self.nome
-
+        return self.nome
 class Veiculo(models.Model):
     STATUS = [
         ('FUNCIONANDO', 'Funcionando'),

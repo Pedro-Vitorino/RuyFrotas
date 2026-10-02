@@ -1,0 +1,69 @@
+{% extends "RuyFrotas/base.html" %}
+{% load static %}
+{% load crispy_forms_filters %}
+
+{% block "title" %}Cadastrar Motorista{% endblock %}
+
+{% block nav_motoristas %} active{% endblock %}
+
+{% block conteudo %}
+
+<section class="py-5 container">
+
+    <form method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <div class="card card-primary card-outline mb-4">
+
+            <div class="card-header">
+                <div class="card-title">Dados de acesso</div>
+            </div>
+
+            <div class="card-body">
+                {{ usuario_form|crispy }}
+            </div>
+
+        </div>
+
+
+        <div class="card card-primary card-outline mb-4">
+
+            <div class="card-header">
+                <div class="card-title">Dados do Motorista</div>
+            </div>
+
+            <div class="card-body">
+
+                {{ motorista_formset.management_form }}
+
+                {% for form in motorista_formset %}
+                    {{ form|crispy }}
+                {% endfor %}
+
+            </div>
+
+            <div class="card-footer">
+
+                <input
+                    type="submit"
+                    value="Cadastrar"
+                    class="btn btn-primary"
+                >
+
+                <a
+                    href="{% url 'motoristas' %}"
+                    class="btn btn-secondary"
+                >
+                    Cancelar
+                </a>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}

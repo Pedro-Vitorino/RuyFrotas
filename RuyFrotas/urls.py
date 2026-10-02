@@ -15,7 +15,6 @@ urlpatterns = [
     path("veiculos/<int:id_veiculo>/editar", views.editar_veiculos, name="editar_veiculo"),
     path("veiculos/<int:id_veiculo>/remover", views.remover_veiculos, name="remover_veiculo"),
     ## Views de Motoristas
-    path("motoristas/novo/", views.novo_motorista, name="novo_motorista"),
     path("motoristas/<int:id_motorista>/", views.ver_motoristas, name="detalhe_motorista"),
     path("motoristas/<int:id_motorista>/editar", views.editar_motoristas, name="editar_motorista"),
     path("motoristas/<int:id_motorista>/remover", views.remover_motoristas, name="remover_motorista"),
@@ -41,4 +40,15 @@ urlpatterns = [
     path("gastos/<int:id_gastos>/", views.ver_gastos, name="detalhe_gasto"),
     path("gastos/<int:id_gastos>/editar", views.editar_gastos, name="editar_gasto"),
     path("gastos/<int:id_gastos>/remover", views.remover_gastos, name="remover_gasto"),
+    ## Views de Login e Logout
+    path('login/', views.login_usuario, name='login'),
+    path('logout/', views.logout_usuario, name='logout'),
+
+    ##Views de user
+    path('cadastro/administrador/', views.cadastrar_administrador, name='cadastrar_administrador'),
+    path('motoristas/cadastrar/', views.cadastrar_motorista, name='novo_motorista'),
+    path('motoristas/editar/<int:id_motorista>/',views.editar_motoristas,name='editar_motorista'),
+    path('motoristas/remover/<int:id_motorista>/',views.remover_motoristas,name='remover_motorista'),
+    path('minha-conta/',views.minha_conta,name='minha_conta'),
+    path('minha-conta/senha/',views.alterar_senha,name='alterar_senha'),
 ]

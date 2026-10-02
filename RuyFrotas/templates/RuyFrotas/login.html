@@ -1,0 +1,78 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - RuyFrotas</title>
+
+    <link rel="stylesheet" href="{% static 'css/adminlte.css' %}">
+</head>
+
+<body>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+
+    <div class="card" style="width: 400px;">
+
+        <div class="card-header text-center">
+            <h3 class="mb-0">RuyFrotas</h3>
+            <small class="text-muted">Acesso ao sistema</small>
+        </div>
+
+        <div class="card-body">
+
+            {% if erro %}
+                <div class="alert alert-danger">
+                    {{ erro }}
+                </div>
+            {% endif %}
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="username" class="form-label">
+                        Usuário
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        class="form-control"
+                        required
+                    >
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">
+                        Senha
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        class="form-control"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    Entrar
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
