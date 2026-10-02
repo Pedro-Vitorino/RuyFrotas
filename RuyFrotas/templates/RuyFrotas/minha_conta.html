@@ -1,46 +1,39 @@
 {% extends "RuyFrotas/base.html" %}
+{% load static %}
+{% load crispy_forms_filters %}
 
 {% block "title" %}Minha conta{% endblock %}
 
-{% block content %}
+{% block conteudo %}
 
-<div class="container-fluid">
+<section class="py-5 container">
 
-    <div class="card">
 
-        <div class="card-header">
-            <h3 class="card-title">
-                Minha conta
-            </h3>
+<div class="card card-primary card-outline mb-4">
+
+    <div class="card-header">
+        <div class="card-title">Minha conta</div>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="card-body">
+            {{ form|crispy }}
         </div>
 
-        <form method="POST">
+        <div class="card-footer">
+            <input type="submit" value="Salvar alterações" class="btn btn-primary">
+            <a href="{% url 'index' %}" class="btn btn-secondary">Cancelar</a>
+            <a href="{% url 'alterar_senha' %}" class="btn btn-warning float-end">
+                Alterar senha
+            </a>
+        </div>
 
-            {% csrf_token %}
-
-            <div class="card-body">
-
-                {{ form.as_p }}
-
-            </div>
-
-            <div class="card-footer">
-
-                <button type="submit" class="btn btn-primary">
-                    Salvar alterações
-                </button>
-
-                <a href="{% url 'alterar_senha' %}"
-                   class="btn btn-warning">
-                    Alterar senha
-                </a>
-
-            </div>
-
-        </form>
-
-    </div>
+    </form>
 
 </div>
 
+
+</section>
 {% endblock %}
