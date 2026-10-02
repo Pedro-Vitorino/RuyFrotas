@@ -62,7 +62,7 @@ def remover_veiculos(request, id_veiculo):
         veiculo = get_object_or_404(Veiculo, id=id_veiculo)
         veiculo.delete()
         messages.success(request, 'Veículo removido com sucesso!')
-        return redirect("veiculo")
+        return redirect("veiculos")
     else:
         return render(request, "RuyFrotas/veiculo_remover.html")
 
@@ -117,7 +117,7 @@ def remover_motoristas(request, id_motorista):
         motorista = get_object_or_404(Motorista, id=id_motorista)
         motorista.delete()
         messages.success(request, 'Motorista removido com sucesso!')
-        return redirect("motorista")
+        return redirect("motoristas")
     else:
         return render(request, "RuyFrotas/motorista_remover.html")
 
@@ -161,7 +161,7 @@ def ver_rotas(request, id_rotas):
 
 def remover_rotas(request, id_rotas):
     if request.method == "POST":
-        rotas = get_object_or_404(Rotas, id=id_rotas)
+        rotas = get_object_or_404(Rota, id=id_rotas)
         rotas.delete()
         messages.success(request, 'Rota removida com sucesso!')
         return redirect("rotas")
@@ -231,7 +231,7 @@ def remover_solicitacao(request, id_solicitacao):
         solicitacao = get_object_or_404(Solicitacao, id=id_solicitacao)
         solicitacao.delete()
         messages.success(request, 'Solicitação removida com sucesso!')
-        return redirect("solicitacao")
+        return redirect("solicitacoes")
     else:
         return render(request, "RuyFrotas/solicitacao_remover.html")
 
@@ -268,7 +268,7 @@ def alternar_manutencao(request, id):
     manutencao.atendida = not manutencao.atendida
     manutencao.save()
 
-    return redirect('manutencoes')
+    return redirect('manutencao')
 
 def nova_manutencao(request):
     if request.method == "POST":
@@ -357,7 +357,7 @@ def remover_gastos(request, id_gastos):
         gastos = get_object_or_404(Gasto, id=id_gastos)
         gastos.delete()
         messages.success(request, 'Gasto removido com sucesso!')
-        return redirect("gasto")
+        return redirect("gastos")
     else:
         return render(request, "RuyFrotas/gasto_remover.html")
 
