@@ -8,32 +8,153 @@
 
 {% block conteudo %}
     <main class="app-main">
-        <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
+
+    <div class="app-content-header">
+        <div class="container-fluid">
+
             <div class="row">
-              <div class="col-sm-6">
-                  <h1 class="mb-0 fs-3">
-                      Veículos
-                  </h1>
-                  <h6 class="mb-0 text-muted">
-                      Visão Geral
-                  </h6>
-              </div>
-              <div class="col-sm-6">
-                <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Início</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'veiculos' %}">Veículos</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Detalhar Veículo</li>
-                  </ol>
-                </nav>
-              </div>
+                <div class="col-sm-6">
+                    <h1 class="mb-0 fs-3">Veículos</h1>
+                    <h6 class="mb-0 text-muted">Detalhes do veículo</h6>
+                </div>
+
+                <div class="col-sm-6">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb float-sm-end">
+
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'index' %}">Início</a>
+                            </li>
+
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'veiculos' %}">Veículos</a>
+                            </li>
+
+                            <li class="breadcrumb-item active">
+                                Detalhar Veículo
+                            </li>
+
+                        </ol>
+                    </nav>
+                </div>
             </div>
-            <!--end::Row-->
-          </div>
-          <!--end::Container-->
+
         </div>
-    </main>
+    </div>
+
+    <div class="app-content">
+        <div class="container-fluid">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h3 class="card-title">
+                        {{ veiculo.apelido }}
+                    </h3>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-md-3 text-center">
+                            <img
+                                src="{{ veiculo.foto.url }}"
+                                alt="Foto de {{ veiculo.apelido }}"
+                                class="img-fluid rounded"
+                            >
+                        </div>
+
+                        <div class="col-md-9">
+
+                            <p>
+                                <strong>Apelido:</strong>
+                                {{ veiculo.apelido }}
+                            </p>
+
+                            <p>
+                                <strong>Placa:</strong>
+                                {{ veiculo.placa }}
+                            </p>
+
+                            <p>
+                                <strong>Marca:</strong>
+                                {{ veiculo.marca }}
+                            </p>
+
+                            <p>
+                                <strong>Ano:</strong>
+                                {{ veiculo.ano }}
+                            </p>
+
+                            <p>
+                                <strong>Cor:</strong>
+                                {{ veiculo.cor }}
+                            </p>
+
+                            <p>
+                                <strong>Combustível:</strong>
+                                {{ veiculo.get_tipo_combustivel_display }}
+                            </p>
+
+                            <p>
+                                <strong>Câmbio:</strong>
+                                {{ veiculo.get_tipo_cambio_display }}
+                            </p>
+
+                            <p>
+                                <strong>Quilometragem:</strong>
+                                {{ veiculo.quilometragem }}
+                            </p>
+
+                            <p>
+                                <strong>Capacidade:</strong>
+                                {{ veiculo.capacidade }}
+                            </p>
+
+                            <p>
+                                <strong>Status:</strong>
+                                {{ veiculo.get_status_display }}
+                            </p>
+
+                            <p>
+                                <strong>Observação:</strong>
+                                {{ veiculo.observacao }}
+                            </p>
+
+                            <p>
+                                <strong>Motoristas:</strong>
+                                {% for motorista in veiculo.motoristas.all %}
+                                    {{ motorista.nome }}{% if not forloop.last %}, {% endif %}
+                                {% empty %}
+                                    Nenhum motorista cadastrado.
+                                {% endfor %}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <a href="{% url 'veiculos' %}"
+                       class="btn btn-secondary">
+                        Voltar
+                    </a>
+
+                    <a href="{% url 'editar_veiculo' veiculo.id %}"
+                       class="btn btn-primary">
+                        Editar
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</main>
 {% endblock %}

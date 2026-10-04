@@ -7,31 +7,110 @@
 
 {% block conteudo %}
     <main class="app-main">
-        <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
+
+    <div class="app-content-header">
+        <div class="container-fluid">
+
             <div class="row">
-              <div class="col-sm-6">
-                  <h1 class="mb-0 fs-3">
-                      Solicitações
-                  </h1>
-                  <h6 class="mb-0 text-muted">
-                      Visão Geral
-                  </h6>
-              </div>
-              <div class="col-sm-6">
-                <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Início</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'solicitacoes' %}">Solicitações</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Detalhar Solicitação
-                </nav>
-              </div>
+                <div class="col-sm-6">
+                    <h1 class="mb-0 fs-3">Solicitações</h1>
+                    <h6 class="mb-0 text-muted">Detalhes da solicitação</h6>
+                </div>
+
+                <div class="col-sm-6">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb float-sm-end">
+
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'index' %}">Início</a>
+                            </li>
+
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'solicitacoes' %}">Solicitações</a>
+                            </li>
+
+                            <li class="breadcrumb-item active">
+                                Detalhar Solicitação
+                            </li>
+
+                        </ol>
+                    </nav>
+                </div>
             </div>
-            <!--end::Row-->
-          </div>
-          <!--end::Container-->
+
         </div>
-    </main>
+    </div>
+
+    <div class="app-content">
+        <div class="container-fluid">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h3 class="card-title">
+                        {{ solicitacao.titulo }}
+                    </h3>
+                </div>
+
+                <div class="card-body">
+
+                    <p>
+                        <strong>ID:</strong>
+                        {{ solicitacao.id }}
+                    </p>
+
+                    <p>
+                        <strong>Motorista:</strong>
+                        {{ solicitacao.motorista.nome }}
+                    </p>
+
+                    <p>
+                        <strong>Título:</strong>
+                        {{ solicitacao.titulo }}
+                    </p>
+
+                    <p>
+                        <strong>Data:</strong>
+                        {{ solicitacao.data|date:"d/m/Y H:i" }}
+                    </p>
+
+                    <p>
+                        <strong>Descrição:</strong>
+                        {{ solicitacao.descricao }}
+                    </p>
+
+                    <p>
+                        <strong>Atendida:</strong>
+
+                        {% if solicitacao.atendida %}
+                            <span class="text-success">
+                                <i class="bi bi-check-circle-fill"></i>
+                                Sim
+                            </span>
+                        {% else %}
+                            <span class="text-danger">
+                                <i class="bi bi-x-circle-fill"></i>
+                                Não
+                            </span>
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <a href="{% url 'solicitacoes' %}"
+                       class="btn btn-secondary">
+                        Voltar
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</main>
 {% endblock %}

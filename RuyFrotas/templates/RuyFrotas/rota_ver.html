@@ -8,32 +8,102 @@
 
 {% block conteudo %}
     <main class="app-main">
-        <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
+
+    <div class="app-content-header">
+        <div class="container-fluid">
+
             <div class="row">
-              <div class="col-sm-6">
-                  <h1 class="mb-0 fs-3">
-                      Rotas
-                  </h1>
-                  <h6 class="mb-0 text-muted">
-                      Visão Geral
-                  </h6>
-              </div>
-              <div class="col-sm-6">
-                <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Início</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'rotas' %}">Rotas</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Detalhar Rota</li>
-                  </ol>
-                </nav>
-              </div>
+                <div class="col-sm-6">
+                    <h1 class="mb-0 fs-3">Rotas</h1>
+                    <h6 class="mb-0 text-muted">Detalhes da rota</h6>
+                </div>
+
+                <div class="col-sm-6">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb float-sm-end">
+
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'index' %}">Início</a>
+                            </li>
+
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'rotas' %}">Rotas</a>
+                            </li>
+
+                            <li class="breadcrumb-item active">
+                                Detalhar Rota
+                            </li>
+
+                        </ol>
+                    </nav>
+                </div>
             </div>
-            <!--end::Row-->
-          </div>
-          <!--end::Container-->
+
         </div>
-    </main>
+    </div>
+
+    <div class="app-content">
+        <div class="container-fluid">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h3 class="card-title">
+                        {{ rota.nome }}
+                    </h3>
+                </div>
+
+                <div class="card-body">
+
+                    <p>
+                        <strong>Nome:</strong>
+                        {{ rota.nome }}
+                    </p>
+
+                    <p>
+                        <strong>Origem:</strong>
+                        {{ rota.origem }}
+                    </p>
+
+                    <p>
+                        <strong>Destino:</strong>
+                        {{ rota.destino }}
+                    </p>
+
+                    <p>
+                        <strong>Duração:</strong>
+                        {{ rota.duracao }}
+                    </p>
+
+                    <p>
+                        <strong>Motoristas:</strong>
+                        {% for motorista in rota.motoristas.all %}
+                            {{ motorista.nome }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            Nenhum motorista cadastrado.
+                        {% endfor %}
+                    </p>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <a href="{% url 'rotas' %}"
+                       class="btn btn-secondary">
+                        Voltar
+                    </a>
+
+                    <a href="{% url 'editar_rota' rota.id %}"
+                       class="btn btn-primary">
+                        Editar
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</main>
 {% endblock %}
