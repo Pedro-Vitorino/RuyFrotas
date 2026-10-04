@@ -7,33 +7,143 @@
 {% block nav_motoristas %} active{% endblock %}
 
 {% block conteudo %}
-    <main class="app-main">
-        <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
+<main class="app-main">
+
+    <div class="app-content-header">
+        <div class="container-fluid">
+
             <div class="row">
-              <div class="col-sm-6">
-                  <h1 class="mb-0 fs-3">
-                      Motoristas
-                  </h1>
-                  <h6 class="mb-0 text-muted">
-                      Visão Geral
-                  </h6>
-              </div>
-              <div class="col-sm-6">
-                <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Início</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'motoristas' %}">Motoristas</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Detalhar Motorista</li>
-                  </ol>
-                </nav>
-              </div>
+                <div class="col-sm-6">
+                    <h1 class="mb-0 fs-3">Motoristas</h1>
+                    <h6 class="mb-0 text-muted">Detalhes do motorista</h6>
+                </div>
+
+                <div class="col-sm-6">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb float-sm-end">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'index' %}">Início</a>
+                            </li>
+
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'motoristas' %}">Motoristas</a>
+                            </li>
+
+                            <li class="breadcrumb-item active">
+                                Detalhar Motorista
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
-            <!--end::Row-->
-          </div>
-          <!--end::Container-->
+
         </div>
-    </main>
+    </div>
+
+
+    <div class="app-content">
+        <div class="container-fluid">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h3 class="card-title">
+                        {{ motorista.nome }}
+                    </h3>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-md-3 text-center">
+                            <img
+                                src="{{ motorista.foto.url }}"
+                                alt="Foto de {{ motorista.nome }}"
+                                class="img-fluid rounded"
+                            >
+                        </div>
+
+                        <div class="col-md-9">
+
+                            <p>
+                                <strong>Nome:</strong>
+                                {{ motorista.nome }}
+                            </p>
+
+                            <p>
+                                <strong>Matrícula:</strong>
+                                {{ motorista.matricula }}
+                            </p>
+
+                            <p>
+                                <strong>CPF:</strong>
+                                {{ motorista.cpf }}
+                            </p>
+
+                            <p>
+                                <strong>Número da CNH:</strong>
+                                {{ motorista.num_cnh }}
+                            </p>
+
+                            <p>
+                                <strong>Categoria da CNH:</strong>
+                                {{ motorista.get_tipo_cnh_display }}
+                            </p>
+
+                            <p>
+                                <strong>Tipo sanguíneo:</strong>
+                                {{ motorista.get_tipo_sangue_display }}
+                            </p>
+
+                            <p>
+                                <strong>E-mail:</strong>
+                                {{ motorista.email }}
+                            </p>
+
+                            <p>
+                                <strong>Celular:</strong>
+                                {{ motorista.cel }}
+                            </p>
+
+                            <p>
+                                <strong>Endereço:</strong>
+                                {{ motorista.endereco }}
+                            </p>
+
+                            <p>
+                                <strong>Data de ingresso:</strong>
+                                {{ motorista.ingresso|date:"d/m/Y" }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <a
+                        href="{% url 'motoristas' %}"
+                        class="btn btn-secondary"
+                    >
+                        Voltar
+                    </a>
+
+                    <a
+                        href="{% url 'editar_motorista' motorista.id %}"
+                        class="btn btn-primary"
+                    >
+                        Editar
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</main>
 {% endblock %}
