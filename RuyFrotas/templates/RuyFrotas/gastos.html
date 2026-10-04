@@ -1,7 +1,7 @@
 {% extends "RuyFrotas/base.html" %}
 {% load static %}
 
-{% block "title" %}Gastos{% endblock %}
+{% block "title" %}Detalhar Gasto{% endblock %}
 
 {% block nav_gastos %} active{% endblock %}
 
@@ -11,24 +11,33 @@
     <!-- Cabeçalho -->
     <div class="app-content-header">
         <div class="container-fluid">
-            
             <div class="row">
+
                 <div class="col-sm-6">
-                    <h1 class="mb-0 fs-3">Gastos</h1>
-                    <h6 class="mb-0 text-muted">Visão Geral</h6>
+                    <h1 class="mb-0 fs-3">Detalhar Gasto</h1>
+                    <h6 class="mb-0 text-muted">Informações do gasto</h6>
                 </div>
+
                 <div class="col-sm-6">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb float-sm-end">
+
                             <li class="breadcrumb-item">
                                 <a href="{% url 'index' %}">Início</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                Gastos
+
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'gastos' %}">Gastos</a>
                             </li>
+
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Detalhar
+                            </li>
+
                         </ol>
                     </nav>
                 </div>
+
             </div>
         </div>
     </div>
@@ -36,120 +45,86 @@
     <!-- Conteúdo -->
     <div class="app-content">
         <div class="container-fluid">
-            <a href="{% url 'novo_gasto' %}" class="btn btn-primary btn-md mb-3">Novo Gasto</a>
+
             <div class="card">
 
                 <div class="card-header">
-                    <h3 class="card-title mb-0">Lista de gastos</h3>
+                    <h3 class="card-title mb-0">
+                        {{ gasto.titulo }}
+                    </h3>
                 </div>
 
-                <div class="card-body p-0">
+                <div class="card-body">
 
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover align-middle mb-0">
+                    <div class="row">
 
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Veículo</th>
-                                    <th>Setor</th>
-                                    <th>Título</th>
-                                    <th>Data</th>
-                                    <th>Valor</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
+                        <div class="col-md-6 mb-3">
+                            <strong>ID:</strong>
+                            <p class="mb-0">
+                                {{ gasto.id }}
+                            </p>
+                        </div>
 
-                            <tbody>
+                        <div class="col-md-6 mb-3">
+                            <strong>Veículo:</strong>
+                            <p class="mb-0">
+                                {{ gasto.veiculo }}
+                            </p>
+                        </div>
 
-                                {% for gasto in gastos %}
-                                <tr>
+                        <div class="col-md-6 mb-3">
+                            <strong>Setor:</strong>
+                            <p class="mb-0">
+                                {{ gasto.setor }}
+                            </p>
+                        </div>
 
-                                    <td>{{ gasto.id }}</td>
+                        <div class="col-md-6 mb-3">
+                            <strong>Título:</strong>
+                            <p class="mb-0">
+                                {{ gasto.titulo }}
+                            </p>
+                        </div>
 
-                                    <td>{{ gasto.veiculo }}</td>
+                        <div class="col-md-6 mb-3">
+                            <strong>Data:</strong>
+                            <p class="mb-0">
+                                {{ gasto.data|date:"d/m/Y H:i" }}
+                            </p>
+                        </div>
 
-                                    <td>{{ gasto.setor }}</td>
+                        <div class="col-md-6 mb-3">
+                            <strong>Valor:</strong>
+                            <p class="mb-0">
+                                R$ {{ gasto.valor|floatformat:2 }}
+                            </p>
+                        </div>
 
-                                    <td>{{ gasto.titulo }}</td>
+                        <div class="col-12 mb-3">
+                            <strong>Descrição:</strong>
+                            <p class="mb-0">
+                                {{ gasto.descricao }}
+                            </p>
+                        </div>
 
-                                    <td>
-                                        {{ gasto.data|date:"d/m/Y H:i" }}
-                                    </td>
-
-                                    <td class="fw-semibold">
-                                        R$ {{ gasto.valor|floatformat:2 }}
-                                    </td>
-
-                                    <td class="text-nowrap">
-
-                                        <!-- Visualizar -->
-                                        <a href="{% url 'detalhe_gasto' gasto.id %}"
-                                           class="btn btn-sm btn-primary"
-                                           title="Visualizar">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
-
-                                        <!-- Editar -->
-                                        <a href="{% url 'editar_gasto' gasto.id %}"
-                                           class="btn btn-sm btn-secondary"
-                                           title="Editar">
-                                            <i class="bi bi-pencil-fill"></i>
-                                        </a>
-
-                                        <!-- Remover -->
-                                        <button
-                                                type="button"
-                                                class="btn btn-sm btn-outline-danger"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#ModalDelete{{ gasto.id }}"
-                                            >
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
-                                                </svg>  
-                                                </button>
-
-                                    </td>
-
-                                </tr>
-                                <div class="modal" id="ModalDelete{{ gasto.id }}" tabindex="-1">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Confirmação</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Tem certeza que deseja remover o gasto: "{{ gasto.titulo }}"</p>
-                                        <p>Após exclusão, não será possível recuperar as informações</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <form action="{% url 'remover_gasto' gasto.id %}" method="POST">
-                                            {% csrf_token %}
-                                            <input type="submit" type="button" class="btn btn-primary" value="Confirmar" />
-                                        </form>
-                                    </div>
-                                    </div>
-                                </div>
-                                </div>       
-                                
-                                {% empty %}
-
-                                <tr>
-                                    <td colspan="7" class="text-center text-muted py-4">
-                                        Nenhum gasto cadastrado.
-                                    </td>
-                                </tr>
-
-                                {% endfor %}
-
-                            </tbody>
-
-                        </table>
                     </div>
 
                 </div>
+
+                <div class="card-footer">
+
+                    <a href="{% url 'gastos' %}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i>
+                        Voltar
+                    </a>
+
+                    <a href="{% url 'editar_gasto' gasto.id %}" class="btn btn-primary">
+                        <i class="bi bi-pencil-fill"></i>
+                        Editar
+                    </a>
+
+                </div>
+
             </div>
 
         </div>

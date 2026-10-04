@@ -1,39 +1,137 @@
-{%  extends "RuyFrotas/base.html"%}
+{% extends "RuyFrotas/base.html" %}
 {% load static %}
 
 {% block "title" %}Detalhar Manutenção{% endblock %}
 
-
 {% block nav_manutencoes %} active{% endblock %}
 
 {% block conteudo %}
-    <main class="app-main">
-        <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
+<main class="app-main">
+
+    <!-- Cabeçalho -->
+    <div class="app-content-header">
+        <div class="container-fluid">
             <div class="row">
-              <div class="col-sm-6">
-                  <h1 class="mb-0 fs-3">
-                      Manutenções
-                  </h1>
-                  <h6 class="mb-0 text-muted">
-                      Visão Geral
-                  </h6>
-              </div>
-              <div class="col-sm-6">
-                <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Início</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'manutencoes' %}">Manutenções</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Detalhar Manutenção</li>
-                  </ol>
-                </nav>
-              </div>
+
+                <div class="col-sm-6">
+                    <h1 class="mb-0 fs-3">Detalhar Manutenção</h1>
+                    <h6 class="mb-0 text-muted">Informações da manutenção</h6>
+                </div>
+
+                <div class="col-sm-6">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb float-sm-end">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'index' %}">Início</a>
+                            </li>
+
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'manutencoes' %}">Manutenções</a>
+                            </li>
+
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Detalhar
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+
             </div>
-            <!--end::Row-->
-          </div>
-          <!--end::Container-->
         </div>
-    </main>
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="app-content">
+        <div class="container-fluid">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h3 class="card-title mb-0">
+                        {{ manutencao.titulo }}
+                    </h3>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <strong>ID:</strong>
+                            <p class="mb-0">{{ manutencao.id }}</p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <strong>Veículo:</strong>
+                            <p class="mb-0">{{ manutencao.veiculo }}</p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <strong>Título:</strong>
+                            <p class="mb-0">{{ manutencao.titulo }}</p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <strong>Data:</strong>
+                            <p class="mb-0">
+                                {{ manutencao.data|date:"d/m/Y H:i" }}
+                            </p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <strong>Gasto:</strong>
+                            <p class="mb-0">
+                                R$ {{ manutencao.gasto|floatformat:2 }}
+                            </p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <strong>Atendida:</strong>
+
+                            <p class="mb-0">
+                                {% if manutencao.atendida %}
+                                    <span class="text-success">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        Sim
+                                    </span>
+                                {% else %}
+                                    <span class="text-danger">
+                                        <i class="bi bi-x-circle-fill"></i>
+                                        Não
+                                    </span>
+                                {% endif %}
+                            </p>
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <strong>Descrição:</strong>
+                            <p class="mb-0">
+                                {{ manutencao.descricao }}
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <a href="{% url 'manutencoes' %}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i>
+                        Voltar
+                    </a>
+
+                    <a href="{% url 'editar_manutencao' manutencao.id %}" class="btn btn-primary">
+                        <i class="bi bi-pencil-fill"></i>
+                        Editar
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</main>
 {% endblock %}
