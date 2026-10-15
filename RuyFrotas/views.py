@@ -214,10 +214,16 @@ def logout_usuario(request):
 ## VEÍCULOS
 @admin_required
 def veiculos(request):
+    lista_veiculos = Veiculo.objects.all().order_by('id')
+
+    paginator = Paginator(lista_veiculos, 10)
+    pagina = request.GET.get('page')
+    veiculos = paginator.get_page(pagina)
+
     context = {
-        "veiculos": Veiculo.objects.all(),
+        "veiculos": veiculos,
     }
-    return render(request,"RuyFrotas/veiculos.html", context)
+    return render(request, "RuyFrotas/veiculos.html", context)
 
 @admin_required
 def novo_veiculo(request):
@@ -277,10 +283,15 @@ def remover_veiculos(request, id_veiculo):
 
 @admin_required
 def motoristas(request):
+    lista_motoristas = Motorista.objects.all().order_by('id')
+
+    paginator = Paginator(lista_motoristas, 10)
+    pagina = request.GET.get('page')
+    motoristas = paginator.get_page(pagina)
 
     context = {
-            "motoristas": Motorista.objects.all(),
-        }
+        "motoristas": motoristas,
+    }
     return render(request,"RuyFrotas/motoristas.html", context)    
 
 
@@ -360,9 +371,15 @@ def ver_motoristas(request, id_motorista):
 ## ROTAS
 @admin_required
 def rotas(request):
+    lista_rotas = Rota.objects.all().order_by('id')
+
+    paginator = Paginator(lista_rotas, 10)
+    pagina = request.GET.get('page')
+    rotas = paginator.get_page(pagina)
+
     context = {
-            "rotas": Rota.objects.all(),
-        }
+        "rotas": rotas,
+    }
     return render(request,"RuyFrotas/rotas.html",context)
 
 @admin_required
@@ -421,9 +438,15 @@ def editar_rotas(request, id_rotas):
 ## SOLICITAÇÕES
 @admin_required
 def solicitacoes(request):
+    lista_solicitacoes = Solicitacao.objects.all().order_by('id')
+
+    paginator = Paginator(lista_solicitacoes, 10)
+    pagina = request.GET.get('page')
+    solicitacoes = paginator.get_page(pagina)
+
     context = {
-            "solicitacoes": Solicitacao.objects.all(),
-        }
+        "solicitacoes": solicitacoes,
+    }
     return render(request,"RuyFrotas/solicitacoes.html",context)
 
 @admin_required
@@ -521,9 +544,15 @@ def editar_solicitacao(request, id_solicitacao):
 ## MANUTENÇÕES
 @admin_required
 def manutencoes(request):
+    lista_manutencoes = Manutencao.objects.all().order_by('id')
+
+    paginator = Paginator(lista_manutencoes, 10)
+    pagina = request.GET.get('page')
+    manutencoes = paginator.get_page(pagina)
+
     context = {
-            "manutencoes": Manutencao.objects.all(),
-        }
+        "manutencoes": manutencoes,
+    }
     return render(request,"RuyFrotas/manutencoes.html",context)
 
 @admin_required
@@ -592,9 +621,15 @@ def editar_manutencao(request, id_manutencao):
 ## GASTOS
 @admin_required
 def gastos(request):
+    lista_gastos = Gasto.objects.all().order_by('id')
+
+    paginator = Paginator(lista_gastos, 10)
+    pagina = request.GET.get('page')
+    gastos = paginator.get_page(pagina)
+
     context = {
-            "gastos": Gasto.objects.all(),
-        }
+        "gastos": gastos,
+    }
     return render(request,"RuyFrotas/gastos.html",context)
 
 @admin_required

@@ -130,7 +130,7 @@
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                         <form action="{% url 'remover_veiculo' veiculo.id %}" method="POST">
                                             {% csrf_token %}
-                                            <input type="submit" type="button" class="btn btn-primary" value="Confirmar" />
+                                            <input type="submit" class="btn btn-primary" value="Confirmar" />
                                         </form>
                                     </div>
                                     </div>
@@ -140,7 +140,7 @@
                                 {% empty %}
 
                                 <tr>
-                                    <td colspan="6" class="text-center text-muted py-4">
+                                    <td colspan="7" class="text-center text-muted py-4">
                                         Nenhum veículo cadastrado.
                                     </td>
                                 </tr>
@@ -150,11 +150,35 @@
 
                         </table>
                     </div>
-
                 </div>
+                <!-- Paginação -->
+                <div class="card-footer clearfix">
+                    <span class="text-muted">
+                        Página {{ veiculos.number }} de {{ veiculos.paginator.num_pages }}
+                    </span>
 
+                    <ul class="pagination pagination-sm m-0 float-end">
+
+                        {% if veiculos.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">Primeira</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ veiculos.previous_page_number }}">Anterior</a>
+                        </li>
+                        {% endif %}
+
+                        {% if veiculos.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ veiculos.next_page_number }}">Próxima</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ veiculos.paginator.num_pages }}">Última</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
-
         </div>
     </div>
 

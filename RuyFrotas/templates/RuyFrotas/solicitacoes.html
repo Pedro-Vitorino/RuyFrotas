@@ -126,7 +126,34 @@
 
                         </table>
                     </div>
+                </div>
+                <!-- Paginação -->
+                <div class="card-footer clearfix">
+                    <span class="text-muted">
+                        Página {{ solicitacoes.number }} de {{ solicitacoes.paginator.num_pages }}
+                    </span>
 
+                    <ul class="pagination pagination-sm m-0 float-end">
+
+                        {% if solicitacoes.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">Primeira</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ solicitacoes.previous_page_number }}">Anterior</a>
+                        </li>
+                        {% endif %}
+
+                        {% if solicitacoes.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ solicitacoes.next_page_number }}">Próxima</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ solicitacoes.paginator.num_pages }}">Última</a>
+                        </li>
+                        {% endif %}
+
+                    </ul>
                 </div>
             </div>
 
