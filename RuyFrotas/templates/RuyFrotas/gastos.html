@@ -1,4 +1,3 @@
-```django
 {% extends "RuyFrotas/base.html" %}
 {% load static %}
 
@@ -51,8 +50,8 @@
                 </div>
 
                 <div class="card-body p-0">
-
                     <div class="table-responsive">
+
                         <table class="table table-striped table-hover align-middle mb-0">
 
                             <thead>
@@ -70,7 +69,6 @@
                             <tbody>
                                 {% for gasto in gastos %}
                                 <tr>
-
                                     <td>{{ gasto.id }}</td>
                                     <td>{{ gasto.titulo }}</td>
                                     <td>{{ gasto.veiculo }}</td>
@@ -92,82 +90,133 @@
                                             <i class="bi bi-pencil-fill"></i>
                                         </a>
 
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-outline-danger"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#ModalDelete{{ gasto.id }}"
-                                            title="Remover">
+                                        <button type="button"
+                                                class="btn btn-sm btn-outline-danger"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#ModalDelete{{ gasto.id }}"
+                                                title="Remover">
                                             <i class="bi bi-trash3"></i>
                                         </button>
 
                                     </td>
-
                                 </tr>
 
-                                <!-- Modal de confirmação -->
-                                <div class="modal" id="ModalDelete{{ gasto.id }}" tabindex="-1">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Confirmação</h5>
-                                                <button type="button"
-                                                        class="btn-close"
-                                                        data-bs-dismiss="modal"
-                                                        aria-label="Fechar"></button>
-                                            </div>
-
-                                            <div class="modal-body">
-                                                <p>
-                                                    Tem certeza que deseja remover o gasto
-                                                    "{{ gasto.titulo }}"?
-                                                </p>
-                                                <p>
-                                                    Após a exclusão, não será possível recuperar as informações.
-                                                </p>
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="button"
-                                                        class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">
-                                                    Cancelar
-                                                </button>
-
-                                                <form action="{% url 'remover_gasto' gasto.id %}" method="POST">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class="btn btn-primary">
-                                                        Confirmar
-                                                    </button>
-                                                </form>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
                                 {% empty %}
-
                                 <tr>
                                     <td colspan="7" class="text-center text-muted py-4">
                                         Nenhum gasto cadastrado.
                                     </td>
                                 </tr>
-
                                 {% endfor %}
                             </tbody>
 
                         </table>
-                    </div>
 
+                    </div>
+                </div>
+
+                {% for gasto in gastos %}
+                <div class="modal fade"
+                     id="ModalDelete{{ gasto.id }}"
+                     tabindex="-1"
+                     aria-labelledby="ModalDeleteLabel{{ gasto.id }}"
+                     aria-hidden="true">
+
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title"
+                                    id="ModalDeleteLabel{{ gasto.id }}">
+                                    Confirmação
+                                </h5>
+
+                                <button type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Fechar">
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+                                <p>
+                                    Tem certeza que deseja remover o gasto
+                                    "{{ gasto.titulo }}"?
+                                </p>
+
+                                <p>
+                                    Após a exclusão, não será possível recuperar
+                                    as informações.
+                                </p>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal">
+                                    Cancelar
+                                </button>
+
+                                <form action="{% url 'remover_gasto' gasto.id %}"
+                                      method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">
+                                        Confirmar
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- Paginação -->
+                <div class="card-footer clearfix">
+
+                    <span class="text-muted">
+                        Página {{ gastos.number }} de {{ gastos.paginator.num_pages }}
+                    </span>
+
+                    <ul class="pagination pagination-sm m-0 float-end">
+
+                        {% if gastos.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">
+                                Primeira
+                            </a>
+                        </li>
+
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="?page={{ gastos.previous_page_number }}">
+                                Anterior
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        {% if gastos.has_next %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="?page={{ gastos.next_page_number }}">
+                                Próxima
+                            </a>
+                        </li>
+
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="?page={{ gastos.paginator.num_pages }}">
+                                Última
+                            </a>
+                        </li>
+                        {% endif %}
+
+                    </ul>
                 </div>
 
             </div>
-
         </div>
     </div>
 
 </main>
 {% endblock %}
-```

@@ -172,6 +172,33 @@
                     </div>
 
                 </div>
+                <!-- Paginação -->
+                <div class="card-footer clearfix">
+                    <span class="text-muted">
+                        Página {{ motoristas.number }} de {{ motoristas.paginator.num_pages }}
+                    </span>
+
+                    <ul class="pagination pagination-sm m-0 float-end">
+
+                        {% if motoristas.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">Primeira</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ motoristas.previous_page_number }}">Anterior</a>
+                        </li>
+                        {% endif %}
+
+                        {% if motoristas.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ motoristas.next_page_number }}">Próxima</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ motoristas.paginator.num_pages }}">Última</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
 
         </div>
