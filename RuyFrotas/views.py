@@ -616,7 +616,7 @@ def novo_gasto(request):
 @admin_required
 def ver_gastos(request, id_gastos):
     context = {
-        "gastos": get_object_or_404(Gasto, id=id_gastos),
+        "gasto": get_object_or_404(Gasto, id=id_gastos),
     }
     return render(request, "RuyFrotas/gasto_ver.html", context)
 
