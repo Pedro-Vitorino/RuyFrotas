@@ -2,6 +2,7 @@ from django import forms
 from django.forms import inlineformset_factory
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
+from datetime import timedelta
 
 from .models import (
     Usuario,
@@ -172,9 +173,73 @@ class FormsVeiculo(forms.ModelForm):
 
 class FormsRota(forms.ModelForm):
 
+    horas = forms.IntegerField(
+        min_value=0,
+        max_value=999,
+        initial=0,
+        required=True,
+        label="Horas",
+        widget=forms.NumberInput(attrs={
+            "class": "form-control",
+            "placeholder": "00",
+            "min": 0,
+            "max": 999
+        })
+    )
+
+    minutos = forms.IntegerField(
+        min_value=0,
+        max_value=59,
+        initial=0,
+        required=True,
+        label="Minutos",
+        widget=forms.NumberInput(attrs={
+            "class": "form-control",
+            "placeholder": "00",
+            "min": 0,
+            "max": 59
+        })
+    )
+
     class Meta:
         model = Rota
-        fields = "__all__"
+        fields = [
+            "nome",
+            "motoristas",
+            "origem",
+            "destino"
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Recupera a duração ao editar uma rota
+        if self.instance and self.instance.pk:
+            duracao = self.instance.duracao or timedelta()
+
+            total_horas = duracao.days * 24 + duracao.seconds // 3600
+            total_minutos = (duracao.seconds % 3600) // 60
+
+            self.fields["horas"].initial = total_horas
+            self.fields["minutos"].initial = total_minutos
+
+    def save(self, commit=True):
+        rota = super().save(commit=False)
+
+        horas = self.cleaned_data["horas"]
+        minutos = self.cleaned_data["minutos"]
+
+        # Converte horas e minutos para DurationField
+        rota.duracao = timedelta(
+            hours=horas,
+            minutes=minutos
+        )
+
+        if commit:
+            rota.save()
+            self.save_m2m()
+
+        return rota
 
 
 # =========================

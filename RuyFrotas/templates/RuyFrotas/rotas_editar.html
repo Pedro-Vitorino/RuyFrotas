@@ -1,34 +1,77 @@
+
 {% extends "RuyFrotas/base.html" %}
 {% load static %}
 {% load crispy_forms_filters %}
-{% block "title" %}{% if is_editar %} Editar Rotas {% else %} Cadastrar Rotas {% endif %}{% endblock %}
+
+{% block "title" %}
+    {% if is_editar %}Editar Rotas{% else %}Cadastrar Rotas{% endif %}
+{% endblock %}
 
 {% block nav_rotas %} active{% endblock %}
 
-
-{% block conteudo  %}
+{% block conteudo %}
 <section class="py-5 container">
-                <div class="card card-primary card-outline mb-4">
-                  <div class="card-header">
-                    <div class="card-title">Dados da Rota</div>
-                  </div>
-                   <form method="POST" enctype="multipart/form-data">
-                    <div class="card-body">
-                      <div class="mb-3">
-                        {% csrf_token %}
-                        {{ form | crispy }}
-                      </div>
+    <div class="card card-primary card-outline mb-4">
+        <div class="card-header">
+            <div class="card-title">Dados da Rota</div>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="card-body">
+
+                {# Demais campos do formulário #}
+                {% for field in form %}
+                    {% if field.name != "horas" and field.name != "minutos" %}
+                        {{ field|as_crispy_field }}
+                    {% endif %}
+                {% endfor %}
+
+                {# Seletor digital de duração #}
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Duração estimada da rota
+                    </label>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.horas.id_for_label }}"
+                                   class="form-label">
+                                <i class="bi bi-clock"></i> Horas
+                            </label>
+
+                            {{ form.horas }}
+                            {{ form.horas.errors }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.minutos.id_for_label }}"
+                                   class="form-label">
+                                <i class="bi bi-stopwatch"></i> Minutos
+                            </label>
+
+                            {{ form.minutos }}
+                            {{ form.minutos.errors }}
+                        </div>
                     </div>
-                    <div class="card-footer">
-                    <input type="submit" value="Enviar" class="btn btn-primary">
-                    </div>
-                  </form> 
+
+                    <small class="text-muted">
+                        Informe a duração prevista para concluir a rota.
+                    </small>
                 </div>
-              </div>   
-              </section>
-        
-{{ form.media }}
+
+            </div>
+
+            <div class="card-footer">
+                <input type="submit" value="Enviar"
+                       class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+</section>
 {% endblock %}
+
 
 
               
