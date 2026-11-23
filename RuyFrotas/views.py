@@ -10,11 +10,121 @@ from django.contrib.auth import authenticate, login, logout
 from .models import Usuario
 from django.db import transaction
 
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
+from django.utils import timezone
 
 
 @login_required
+@login_required
 def index(request):
-    return render(request,"RuyFrotas/index.html")
+    if request.user.tipo != 'ADMIN':
+        return render(request, "RuyFrotas/index.html")
+
+    # Totais gerais
+    total_veiculos = Veiculo.objects.count()
+    total_motoristas = Motorista.objects.count()
+
+    total_manutencoes = Manutencao.objects.filter(
+        atendida=False
+    ).count()
+
+    total_solicitacoes = Solicitacao.objects.filter(
+        atendida=False
+    ).count()
+
+    # Veículos por situação
+    veiculos_manutencao = Veiculo.objects.filter(
+        status='CONSERTO'
+    ).count()
+
+    veiculos_quebrados = Veiculo.objects.filter(
+        status='QUEBRADO'
+    ).count()
+
+    # Últimas manutenções pendentes
+    manutencoes = Manutencao.objects.filter(
+        atendida=False
+    ).select_related('veiculo').order_by('-data')[:5]
+
+    # Solicitações pendentes e recentes
+    solicitacoes = Solicitacao.objects.select_related(
+        'motorista'
+    ).order_by('atendida', '-data')[:5]
+
+    # Veículos quebrados
+    lista_quebrados = Veiculo.objects.filter(
+        status='QUEBRADO'
+    )[:5]
+
+    # Motoristas atualmente em viagem
+    viagens_ativas = Viagem.objects.filter(
+        data_saida__isnull=False,
+        data_chegada__isnull=True
+    ).select_related(
+        'motorista', 'veiculo', 'rota'
+    )[:5]
+
+    total_viagens_ativas = Viagem.objects.filter(
+        data_saida__isnull=False,
+        data_chegada__isnull=True
+    ).count()
+
+    # Gráfico: gastos dos últimos seis meses
+    hoje = timezone.localdate()
+    primeiro_dia = hoje.replace(day=1)
+
+    meses = []
+    ano = primeiro_dia.year
+    mes = primeiro_dia.month
+
+    for _ in range(6):
+        meses.insert(0, f'{ano}-{mes:02d}')
+
+        mes -= 1
+        if mes == 0:
+            mes = 12
+            ano -= 1
+
+    gastos_por_mes = Gasto.objects.annotate(
+        mes_gasto=TruncMonth('data')
+    ).values(
+        'mes_gasto'
+    ).annotate(
+        total=Sum('valor')
+    ).order_by('mes_gasto')
+
+    valores_gastos = {
+        item['mes_gasto'].strftime('%Y-%m'): float(item['total'] or 0)
+        for item in gastos_por_mes
+        if item['mes_gasto']
+    }
+
+    grafico_labels = [
+        f'{mes[5:7]}/{mes[:4]}' for mes in meses
+    ]
+
+    grafico_valores = [
+        valores_gastos.get(mes, 0) for mes in meses
+    ]
+
+    contexto = {
+        'total_veiculos': total_veiculos,
+        'total_motoristas': total_motoristas,
+        'total_manutencoes': total_manutencoes,
+        'total_solicitacoes': total_solicitacoes,
+        'veiculos_manutencao': veiculos_manutencao,
+        'veiculos_quebrados': veiculos_quebrados,
+        'manutencoes': manutencoes,
+        'solicitacoes': solicitacoes,
+        'lista_quebrados': lista_quebrados,
+        'viagens_ativas': viagens_ativas,
+        'total_viagens_ativas': total_viagens_ativas,
+        'grafico_labels': grafico_labels,
+        'grafico_valores': grafico_valores,
+    }
+
+    return render(request, "RuyFrotas/index.html", contexto)
 
 
 ## DECORATOR DOS ADMINISTRADORES
